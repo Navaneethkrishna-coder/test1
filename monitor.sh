@@ -8,26 +8,67 @@
 ###########
 #This script is for monitoring services,cpu usage,memory usage,disk usage
 ##########
-#!/bin/bash
 
-echo "***** EC2 System Monitoring *****"
+
+# ==========================================
+#        EC2 SYSTEM MONITORING SCRIPT
+# ==========================================
+
+clear
+
+echo "======================================================"
+echo "           EC2 INSTANCE HEALTH MONITOR"
+echo "======================================================"
 echo
 
-
-echo "Running Services:"
-systemctl list-units --type=service --state=running
+# System Information
+echo "📅 Date & Time      : $(date)"
+echo "🖥️  Hostname        : $(hostname)"
+echo "⏳ Uptime          : $(uptime -p)"
 echo
 
-echo "CPU Usage:"
-top -bn1 | grep "Cpu(s)"
+# CPU Usage
+echo "======================================================"
+echo "                 CPU USAGE"
+echo "======================================================"
+top -bn1 | grep "Cpu(s)" | awk '{printf "CPU Usage : %.2f%%\n", 100 - $8}'
 echo
 
-echo "Memory Usage:"
+# Memory Usage
+echo "======================================================"
+echo "               MEMORY USAGE"
+echo "======================================================"
 free -h
 echo
 
-echo "Disk Usage:"
-df -h
+# Disk Usage
+echo "======================================================"
+echo "                DISK USAGE"
+echo "======================================================"
+df -h --output=source,size,used,avail,pcent,target
 echo
 
-echo "***** Monitoring Complete *****"
+# Running Services
+echo "======================================================"
+echo "            RUNNING SERVICES"
+echo "======================================================"
+systemctl list-units --type=service --state=running --no-pager
+echo
+
+# Top CPU Processes
+echo "======================================================"
+echo "         TOP 5 CPU CONSUMING PROCESSES"
+echo "======================================================"
+ps -eo pid,user,comm,%cpu --sort=-%cpu | head -6
+echo
+
+# Top Memory Processes
+echo "======================================================"
+echo "       TOP 5 MEMORY CONSUMING PROCESSES"
+echo "======================================================"
+ps -eo pid,user,comm,%mem --sort=-%mem | head -6
+echo
+
+echo "======================================================"
+echo "         EC2 MONITORING COMPLETED"
+echo "======================================================"
