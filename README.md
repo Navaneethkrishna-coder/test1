@@ -1,183 +1,284 @@
-# 🖥️ EC2 System Monitoring Script
+# 🖥️ Shell Scripting with AWS EC2, Bash & Git
 
-A simple Bash script to monitor the health and performance of an Amazon EC2 instance. This script provides a quick overview of important system metrics, making it useful for Linux system administration, AWS learning, and DevOps practice.
+## 📌 Assignment Overview
 
----
+This project is part of a **2-Day DevOps Assignment** focused on learning **AWS EC2**, **Linux Shell Scripting**, **Bash Automation**, **Git**, and **Cron Jobs**.
 
-## 📌 Features
-
-- 📅 Displays current date and time
-- 🖥️ Shows the hostname of the EC2 instance
-- ⏳ Displays system uptime
-- ⚡ Monitors CPU usage
-- 💾 Shows memory usage
-- 📂 Displays disk usage
-- 🔧 Lists all running system services
-- 🚀 Shows the top 5 CPU-consuming processes
-- 📊 Shows the top 5 memory-consuming processes
+The project demonstrates how to launch an EC2 instance, create a monitoring script, automate execution using Cron, log system information, and manage the project using Git and GitHub.
 
 ---
 
-## 📁 Project Structure
+# 🎯 Objective
+
+- Launch and configure an AWS EC2 Ubuntu instance.
+- Connect securely using SSH.
+- Install and configure Git.
+- Develop a Bash monitoring script.
+- Monitor system resources such as CPU, Memory, Disk, and Running Services.
+- Automate script execution using Cron.
+- Store monitoring logs.
+- Track project versions using Git and GitHub.
+
+---
+
+# 🛠 Technologies Used
+
+- AWS EC2 (Ubuntu)
+- Linux
+- Bash Scripting
+- Git
+- GitHub
+- Cron
+
+---
+
+# 📁 Project Structure
 
 ```
-ec2-monitor/
-├── ec2_monitor.sh
-└── README.md
+shell-assignment/
+│
+├── monitor.sh
+├── monitor_logs.txt
+├── README.md
+└── screenshots/
+    ├── firstoutput/
+    ├── secondenhancedoutput/
+    └── cronjob/
+   
 ```
 
 ---
 
-## 🛠 Prerequisites
+# 📋 Assignment Tasks
 
-- Ubuntu/Linux operating system
-- Bash shell
-- `systemctl`
-- `top`
-- `free`
-- `df`
-- `ps`
+## ✅ Day 1 – Environment Setup & Monitoring
 
-These utilities are pre-installed on most Ubuntu-based EC2 instances.
+### Task 1 – Launch EC2 Instance
+
+- Created an AWS Free Tier Ubuntu EC2 instance.
+- Connected to the instance using SSH.
 
 ---
 
-## 🚀 Installation
+### Task 2 – Install Git
 
-### Clone the repository
+Installed Git using:
 
 ```bash
-git clone https://github.com/<your-username>/ec2-monitor.git
+sudo apt update
+sudo apt install git -y
 ```
 
-### Navigate to the project directory
+Verified installation:
 
 ```bash
-cd ec2-monitor
+git --version
 ```
 
-### Give execute permission
+---
+
+### Task 3 – Initialize Git Repository
+
+Created the project directory and initialized Git.
 
 ```bash
-chmod +x ec2_monitor.sh
+mkdir shell-assignment
+cd shell-assignment
+git init
 ```
 
 ---
 
-## ▶️ Usage
+### Task 4 – Create EC2 Monitoring Script
 
-Run the script using:
+Created **monitor.sh** to display:
+
+- Current Date & Time
+- Hostname
+- System Uptime
+- CPU Usage
+- Memory Usage
+- Disk Usage
+- Running Services
+- Top CPU-consuming Processes
+- Top Memory-consuming Processes
+
+Run the script:
 
 ```bash
-./ec2_monitor.sh
+chmod +x monitor.sh
+./monitor.sh
 ```
 
-or
+---
+
+### Task 5 – Push Code to GitHub
+
+Commands used:
 
 ```bash
-bash ec2_monitor.sh
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin <repository-url>
+git push -u origin main
 ```
 
 ---
 
-## 📋 Sample Output
+# ✅ Day 2 – Automation & Logging
 
-```
-======================================================
-           EC2 INSTANCE HEALTH MONITOR
-======================================================
+## Task 6 – Log Monitoring Output
 
-📅 Date & Time      : Mon Jul 6 16:20:14 UTC 2026
-🖥️ Hostname         : ip-172-31-10-149
-⏳ Uptime           : up 3 days, 5 hours
+Stored script output in a log file.
 
-======================================================
-                 CPU USAGE
-======================================================
-CPU Usage : 12.37%
-
-======================================================
-               MEMORY USAGE
-======================================================
-               total        used        free
-Mem:           965Mi       421Mi       302Mi
-
-======================================================
-                DISK USAGE
-======================================================
-Filesystem      Size Used Avail Use%
-/dev/root        20G  5.1G   14G  27%
-
-======================================================
-            RUNNING SERVICES
-======================================================
-nginx.service
-ssh.service
-cron.service
-...
-
-======================================================
-         TOP 5 CPU CONSUMING PROCESSES
-======================================================
-PID USER COMMAND %CPU
-...
-
-======================================================
-       TOP 5 MEMORY CONSUMING PROCESSES
-======================================================
-PID USER COMMAND %MEM
-...
+```bash
+./monitor.sh >> monitor_logs.txt
 ```
 
 ---
 
-## 📊 Monitored Metrics
+## Task 7 – Enhanced Monitoring Script
 
-| Metric | Description |
-|---------|-------------|
-| Date & Time | Current system date and time |
-| Hostname | Name of the EC2 instance |
-| Uptime | How long the instance has been running |
-| CPU Usage | Current CPU utilization |
-| Memory Usage | RAM usage statistics |
-| Disk Usage | Storage utilization |
-| Running Services | Active system services |
-| Top CPU Processes | Processes consuming the most CPU |
-| Top Memory Processes | Processes consuming the most memory |
+Improved the script by:
+
+- Adding formatted headers
+- Displaying uptime
+- Organizing output into sections
+- Showing top CPU and memory consuming processes
+- Making the output more readable
 
 ---
 
-## 💡 Use Cases
+## Task 8 – Schedule Automation Using Cron
 
-- AWS EC2 health monitoring
-- Linux system administration practice
-- DevOps learning
-- Server health checks
-- Interview demonstration project
+Opened crontab:
+
+```bash
+crontab -e
+```
+
+Added the following Cron job to execute the script daily at **9:00 AM**:
+
+```bash
+0 9 * * * /home/ubuntu/shell-assignment/monitor.sh >> /home/ubuntu/shell-assignment/monitor_logs.txt
+```
+
+Verify Cron jobs:
+
+```bash
+crontab -l
+```
 
 ---
 
-## 🔮 Future Enhancements
+## Task 9 – Version Control
 
-- Email alerts for high CPU or memory usage
-- Disk usage threshold notifications
-- Colored terminal output
-- Log monitoring
-- Network usage monitoring
-- Automatic report generation
-- Cron job integration
-- CloudWatch integration
+Tracked changes using Git.
+
+Commands used:
+
+```bash
+git status
+git add .
+git commit -m "Enhanced monitoring script and automation"
+git push
+```
 
 ---
 
-## 👨‍💻 Author
+# 📊 Features
+
+- Displays current date and time
+- Displays hostname
+- Displays system uptime
+- Shows CPU usage
+- Shows memory usage
+- Displays disk usage
+- Lists running services
+- Displays top CPU-consuming processes
+- Displays top memory-consuming processes
+- Supports logging
+- Supports Cron automation
+
+---
+
+# ▶️ How to Run
+
+Give execute permission:
+
+```bash
+chmod +x monitor.sh
+```
+
+Execute:
+
+```bash
+./monitor.sh
+```
+
+Save output to a log file:
+
+```bash
+./monitor.sh >> monitor_logs.txt
+```
+
+---
+
+# ⏰ Cron Automation
+
+Daily execution:
+
+```bash
+0 9 * * * /home/ubuntu/shell-assignment/monitor.sh >> /home/ubuntu/shell-assignment/monitor_logs.txt
+```
+
+---
+
+# 📸 Screenshots
+
+Include the following screenshots in the `screenshots` folder:
+
+- EC2 Instance Running
+- SSH Connection
+- Git Installation
+- Git Repository Initialization
+- Script Execution
+- Log File Output
+- Cron Job Configuration
+- GitHub Repository
+
+---
+
+# 📚 Learning Outcomes
+
+Through this assignment, I learned:
+
+- AWS EC2 setup and management
+- Connecting to Linux servers using SSH
+- Bash shell scripting
+- Linux system monitoring
+- Git version control
+- GitHub repository management
+- Cron job scheduling
+- Automation using Bash
+
+---
+
+# 📌 Submission Checklist
+
+- GitHub Repository
+- README.md
+- monitor.sh
+- monitor_logs.txt
+- Screenshots
+
+---
+
+# 👨‍💻 Author
 
 **Navaneeth Krishna**
 
-GitHub: https://github.com/<your-username>
+
 
 ---
-
-## 📄 License
-
-This project is licensed under the MIT License.
